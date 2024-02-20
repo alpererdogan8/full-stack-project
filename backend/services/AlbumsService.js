@@ -5,7 +5,6 @@ import CommentsService from "./CommentsService.js";
 class AlbumsService extends BaseService {
   constructor(APIConfig) {
     super(APIConfig);
-    this.albumId = 0;
   }
   /**
    * JSONPlaceHolder's albums call all of them
