@@ -1,13 +1,20 @@
 import { Button } from "../atomic/button";
 import { Image } from "../atomic/image";
 
-const Card = () => {
+type TypeCard = {
+  src?: string;
+  title: string;
+  href: string;
+};
+
+const Card = ({ src, title, href }: TypeCard) => {
+  // min-w-[317px]
   return (
-    <div className="p-4 border-border border-2 shadow-md gap-3 min-h-[167px] flex rounded-xl">
-      <Image className="hidden sm:block" width="150px" src={"https://via.placeholder.com/150/92c952"} />
-      <div className="flex flex-col justify-between items-end min-h-[90px]">
-        <h2 className="text-lg font-semibold">quidem molestiae enim</h2>
-        <Button size={"small"} className="w-full sm:w-auto" href="#" variantType={"default"}>
+    <div className=" m-2 flex rounded-md justify-between gap-2 p-3 border-border shadow-md  h-auto text-wrap whitespace-break-spaces border-2">
+      {typeof src !== "undefined" ? <Image width="120px" src={src} /> : null}
+      <div className="flex flex-col  justify-between items-end ">
+        <h2 className="text-lg font-semibold">{title}</h2>
+        <Button href={href} size={"icon"} className="w-full sm:w-auto" variantType={"link"}>
           Go to Details
         </Button>
       </div>
