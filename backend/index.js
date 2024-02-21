@@ -18,6 +18,10 @@ app.use(limiter);
 app.use("/", search);
 app.use("/albums", albums);
 
+app.get("/", (req, res) => {
+  res.redirect("/albums");
+});
+
 app.listen(PORT, () => {
   console.log(`Starting http://localhost:${PORT}`);
 });
