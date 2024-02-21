@@ -8,7 +8,7 @@ const app = express();
 const limiter = rateLimit({
   message: "too many requests, please wait a bit",
   windowMs: 10000, // 10 second
-  limit: 5,
+  limit: 10,
   standardHeaders: "draft-7",
   legacyHeaders: true,
 });
