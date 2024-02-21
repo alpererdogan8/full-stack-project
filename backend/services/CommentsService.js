@@ -4,9 +4,7 @@ import BaseService from "./BaseService.js";
 class CommentsService extends BaseService {
   constructor(APIConfig) {
     super(APIConfig);
-    this.numberOfRandomComments = Math.floor(Math.random() * 50) + 1;
-    this.randomCommentId =
-      Math.floor(Math.random() * (500 - this.numberOfRandomComments)) + this.numberOfRandomComments + 1;
+    this.numberOfRandomComments = Math.floor(Math.random() * 30) + 1;
     this.commentList = [];
   }
   async getComment() {
@@ -15,6 +13,7 @@ class CommentsService extends BaseService {
 
       this.commentList.push(data);
     }
+    this.numberOfRandomComments = 0;
     return this.commentList;
   }
 }
