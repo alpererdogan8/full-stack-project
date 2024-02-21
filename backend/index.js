@@ -10,7 +10,7 @@ const limiter = rateLimit({
   windowMs: 10000, // 10 second
   limit: 10,
   standardHeaders: "draft-7",
-  legacyHeaders: true,
+  legacyHeaders: false,
 });
 
 app.use(limiter);
