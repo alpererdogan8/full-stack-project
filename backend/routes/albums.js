@@ -1,24 +1,35 @@
 import { Router } from "express";
+import { paginate } from "../middlewares/paginationMiddleware.js";
 import AlbumsService from "../services/AlbumsService.js";
-import CommentsService from "../services/CommentsService.js";
 
 const albums = Router();
 
 albums.get("/", async (req, res) => {
-  const { data } = await AlbumsService.getAlbums();
+  try {
+    const { data } = await AlbumsService.getAlbums();
+    const { type, search } = req.query;
+    console.log(type, search);
 
-  res.json({ data });
+    paginate(data)(req, res, () => {
+      res.json(res.paginatedResults);
+    });
+  } catch (error) {
+    console.error("Error fetching albums:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 albums.get("/:albumId", async (req, res) => {
   const { albumId } = req.params;
   const { data } = await AlbumsService.getPicturesOfAlbums({ albumId });
-  res.json({ albums: data });
+  paginate(data)(req, res, () => {
+    res.json(res.paginatedResults);
+  });
 });
 albums.get("/:albumId/photos/:photoId", async (req, res) => {
   const { albumId, photoId } = req.params;
   const data = await AlbumsService.getSingleImageDetails({ albumId, photoId });
-  res.json({ albums: data });
+  res.json(data);
 });
 
 export default albums;
