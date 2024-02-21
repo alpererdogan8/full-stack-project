@@ -10,10 +10,10 @@ class CommentsService extends BaseService {
     this.commentList = [];
   }
   async getComment() {
-    for (let i = 0; i < this.numberOfRandomComments; i++) {
-      const commentId = this.randomCommentId;
-      const { data: comment } = await this.get(`/comments/${commentId}`);
-      this.commentList.push(comment);
+    for (let i = 1; i <= this.numberOfRandomComments; i++) {
+      const { data } = await this.get(`/comments/${i}`);
+
+      this.commentList.push(data);
     }
     return this.commentList;
   }
