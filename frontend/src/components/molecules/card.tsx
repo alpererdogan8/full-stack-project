@@ -8,7 +8,6 @@ type TypeCard = {
 };
 
 const Card = ({ src, title, href }: TypeCard) => {
-  // min-w-[317px]
   return (
     <div className=" m-2 flex rounded-md justify-between gap-2 p-3 border-border shadow-md  h-auto text-wrap whitespace-break-spaces border-2">
       {typeof src !== "undefined" ? <Image width="120px" src={src} /> : null}
