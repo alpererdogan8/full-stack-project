@@ -7,8 +7,6 @@ const albums = Router();
 albums.get("/", async (req, res) => {
   try {
     const { data } = await AlbumsService.getAlbums();
-    const { type, search } = req.query;
-    console.log(type, search);
 
     paginate(data)(req, res, () => {
       res.json(res.paginatedResults);
