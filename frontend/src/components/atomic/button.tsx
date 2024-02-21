@@ -7,7 +7,7 @@ const variantButton = cva("inline-flex items-center justify-center button rounde
     variantType: {
       default:
         "bg-primary hover:bg-primary/75  active:ring-2 active:ring-offset-2 ring-primary text-primary-foreground ",
-      link: "bg-none text-primary underline-offset-4 hover:underline",
+      link: "bg-none text-primary underline-offset-4 underline hover:font-semibold",
     },
     size: {
       default: "h-10 px-4 py-2",
