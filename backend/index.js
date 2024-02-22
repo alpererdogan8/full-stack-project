@@ -34,5 +34,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Starting http://localhost:${PORT}`);
+  console.log(`Starting ${apiUrl}:${PORT}`);
 });
