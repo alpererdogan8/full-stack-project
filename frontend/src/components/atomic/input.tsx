@@ -8,11 +8,12 @@ const inputVariants = cva(
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement>, VariantProps<typeof inputVariants> {
   ref?: ForwardedRef<HTMLInputElement>;
+  placeholder?: string;
 }
-export const Input: FC<InputProps> = forwardRef(({ className, ...props }, ref) => {
+export const Input: FC<InputProps> = forwardRef(({ className, placeholder, ...props }, ref) => {
   return (
     <>
-      <input ref={ref} className={cn(inputVariants({ className }), "peer")} {...props} />
+      <input ref={ref} placeholder={placeholder} className={cn(inputVariants({ className }), "peer")} {...props} />
     </>
   );
 });
