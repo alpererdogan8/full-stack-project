@@ -25,7 +25,7 @@ const Albums = () => {
     <div className="w-11/12 my-10 h-auto gap-2 flex flex-col md:flex-row md:flex-wrap md:justify-center md:items-start items-center ">
       {contextAPIState && contextAPIState.loading
         ? "loading"
-        : contextAPIState.data.results.map((items: any) => {
+        : Object(contextAPIState?.data?.results || []).map((items: any) => {
             return <Card key={items.id} title={items.title} href={`/albums/${items.id}`} />;
           })}
     </div>

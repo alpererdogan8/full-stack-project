@@ -26,7 +26,7 @@ const Album = () => {
     <div className="w-11/12 mt-10 h-auto gap-2 flex flex-col md:flex-row md:flex-wrap md:justify-center md:items-start items-center ">
       {contextAPIState && contextAPIState.loading
         ? "loading"
-        : contextAPIState.data.results?.map((items: any) => {
+        : Object(contextAPIState?.data?.results || []).map((items: any) => {
             return (
               <Card
                 key={items.id}
