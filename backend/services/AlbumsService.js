@@ -19,7 +19,7 @@ class AlbumsService extends BaseService {
    * @returns {Promise} Returns an object
    */
   async getPicturesOfAlbums({ albumId }) {
-    return this.get(`/photos?albumId=${albumId}&_expand=album`);
+    return this.get(`/photos?albumId=${albumId}`);
   }
   /** Retrieves details of a single image from a specific album.
    * @param {Object} params - The parameters for fetching image details.
