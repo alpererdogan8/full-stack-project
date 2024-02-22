@@ -4,11 +4,11 @@ import Navbar from "../organisms/navbar";
 
 const MainTemplate: FC<{ children: ReactNode }> = ({ children }) => {
   return (
-    <div className="m-0 p-0 w-full flex flex-col items-center">
+    <main className="m-0 p-0 w-full flex flex-col items-center">
       <Navbar />
       {children}
       <Footer />
-    </div>
+    </main>
   );
 };
 
