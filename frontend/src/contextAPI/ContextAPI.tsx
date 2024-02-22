@@ -53,15 +53,12 @@ export const ContextAPIProvider: FC<{ children: ReactNode }> = ({ children }) =>
     title: "",
     url: "",
   });
-  const navigate = useNavigate();
+
   const getAlbums = async (page?: number) => {
     try {
       dispatch({ type: "FETCH_START" });
       const { data } = await API.get(`/albums?page=${page}`);
       dispatch({ type: "FETCH_SUCCESS", payload: data });
-      navigate({
-        pathname: typeof data.results[0].albumId! === "undefined" ? "/" : `/albums/${data.results[0].albumId!}`,
-      });
     } catch (error) {
       dispatch({ type: "FETCH_ERROR", payload: error as string });
     }
@@ -70,8 +67,6 @@ export const ContextAPIProvider: FC<{ children: ReactNode }> = ({ children }) =>
     try {
       dispatch({ type: "FETCH_START" });
       const { data } = await API.get(`/albums/${albumId}?page=${page}`);
-      console.log(data);
-
       dispatch({ type: "FETCH_SUCCESS", payload: data });
     } catch (error) {
       dispatch({ type: "FETCH_ERROR", payload: error as string });
@@ -85,13 +80,16 @@ export const ContextAPIProvider: FC<{ children: ReactNode }> = ({ children }) =>
       console.log(error);
     }
   };
+  const navigate = useNavigate();
   const handleSearch = async (input: string) => {
     try {
       dispatch({ type: "FETCH_START" });
       const { data } = await API.get(`/search?type=albums-photos&search=${input}`);
       console.log(data);
       console.log(data.results[0].id);
-      history.pushState(data, "albums", `/albums/${data.results[0].id}`);
+      if (data.results.length > 0) {
+        navigate({ pathname: `/albums/${data.results[0].id}` });
+      }
       dispatch({ type: "FETCH_SUCCESS", payload: data });
     } catch (error) {
       dispatch({ type: "FETCH_ERROR", payload: error as string });
