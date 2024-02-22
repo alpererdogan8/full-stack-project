@@ -14,7 +14,7 @@ console.log(process.env.NODE_ENV);
 console.log(apiUrl);
 app.use(
   cors({
-    origin: ["*"],
+    origin: ["http://localhost:5173"],
   }),
 );
 const limiter = rateLimit({
