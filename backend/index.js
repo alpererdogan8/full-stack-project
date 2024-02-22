@@ -9,16 +9,14 @@ const PORT = process.env.PORT;
 const app = express();
 const apiUrl = process.env.NODE_ENV === "production" ? process.env.CORS_URL_PROD : process.env.CORS_URL_DEV;
 app.set("trust proxy", 1);
-app.use((req, res, next) => {
-  res.header("Contet-Type", "application/json;charset=UTF-8");
-  res.header("Access-Control-Allow-Credentials", true);
-  res.header("Access-Control-Allow-Origin", [apiUrl]);
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+
 console.log(process.env.NODE_ENV);
 console.log(apiUrl);
-app.use(cors({ origin: [apiUrl], credentials: true, methods: ["GET", "POST", "PUT", "DELETE"] }));
+app.use(
+  cors({
+    origin: ["*"],
+  }),
+);
 const limiter = rateLimit({
   message: "too many requests, please wait a bit",
   windowMs: 10000, // 10 second
