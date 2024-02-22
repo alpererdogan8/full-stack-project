@@ -14,7 +14,7 @@ console.log(process.env.NODE_ENV);
 console.log(apiUrl);
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
+    origin: ["http://localhost:5173", "https://full-stack-project-sigma.vercel.app/"],
   }),
 );
 const limiter = rateLimit({
