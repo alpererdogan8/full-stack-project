@@ -14,13 +14,13 @@ console.log(process.env.NODE_ENV);
 console.log(apiUrl);
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://full-stack-project-sigma.vercel.app"],
+    origin: [apiUrl],
   }),
 );
 const limiter = rateLimit({
   message: "too many requests, please wait a bit",
   windowMs: 10000, // 10 second
-  limit: 10,
+  limit: 30,
   standardHeaders: "draft-7",
   legacyHeaders: false,
 });
