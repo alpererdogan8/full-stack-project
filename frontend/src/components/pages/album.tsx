@@ -3,7 +3,9 @@
 import { useEffect } from "react";
 import { useLocation, useParams } from "react-router";
 import { useAPI } from "../../hooks/useAPI";
+import { Button } from "../atomic/button";
 import Card from "../molecules/card";
+import SkeletonCard from "../molecules/skeleton-card";
 
 const Album = () => {
   const { albumId } = useParams();
@@ -23,18 +25,40 @@ const Album = () => {
 
   return (
     <div className="w-11/12 mt-10 h-auto gap-2 flex flex-col md:flex-row md:flex-wrap md:justify-center md:items-start items-center ">
-      {contextAPIState && contextAPIState.loading
-        ? "loading"
-        : Object(contextAPIState?.data?.results || []).map((items: any) => {
-            return (
-              <Card
-                key={items.id}
-                title={items.title}
-                href={`/albums/${items.albumId}/details/${items.id}`}
-                src={items.url}
-              />
-            );
-          })}
+      {contextAPIState && contextAPIState.loading ? (
+        <>
+          <SkeletonCard />
+        </>
+      ) : (
+        Object(contextAPIState?.data?.results || []).map((items: any) => {
+          return (
+            <Card
+              key={items.id}
+              title={items.title}
+              href={`/albums/${items.albumId}/details/${items.id}`}
+              src={items.url}
+            />
+          );
+        })
+      )}
+      <div className=" w-full h-24 flex justify-center items-center">
+        <Button
+          href={`/albums/${albumId}?page=${
+            contextAPIState.data.page === 1 ? contextAPIState.data.page : contextAPIState.data.page - 1
+          }`}
+          variantType={"link"}>
+          Prev
+        </Button>
+        <Button
+          href={`/albums/${albumId}?page=${
+            contextAPIState.data.page === contextAPIState.data.totalPages
+              ? contextAPIState.data.page
+              : contextAPIState.data.page + 1
+          }`}
+          variantType={"link"}>
+          Next
+        </Button>
+      </div>
     </div>
   );
 };
