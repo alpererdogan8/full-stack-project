@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router";
+import { ToUp } from "./components/molecules/toUpScroll";
 import Album from "./components/pages/album";
 import Albums from "./components/pages/albums";
 import Details from "./components/pages/details";
@@ -22,6 +23,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
+      <ToUp />
     </MainTemplate>
   );
 }
