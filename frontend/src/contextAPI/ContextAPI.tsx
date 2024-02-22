@@ -88,7 +88,7 @@ export const ContextAPIProvider: FC<{ children: ReactNode }> = ({ children }) =>
       console.log(data);
       console.log(data.results[0].id);
       if (data.results.length > 0) {
-        navigate({ pathname: `/albums/${data.results[0].id}` });
+        navigate({ pathname: `/albums/${data.results[0].albumId}` });
       }
       dispatch({ type: "FETCH_SUCCESS", payload: data });
     } catch (error) {
