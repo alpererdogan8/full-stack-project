@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { FC, ReactNode, Reducer, createContext, useEffect, useReducer, useState } from "react";
+import { FC, ReactNode, Reducer, createContext, useReducer, useState } from "react";
 import { useNavigate } from "react-router";
 import { API } from "../utils/axios/config";
 import { reducer } from "../utils/reducers/reducer";
@@ -97,9 +97,6 @@ export const ContextAPIProvider: FC<{ children: ReactNode }> = ({ children }) =>
       dispatch({ type: "FETCH_ERROR", payload: error as string });
     }
   };
-  useEffect(() => {
-    console.log(details);
-  }, [contextAPIState]);
   return (
     <ContextAPI.Provider
       value={{ contextAPIState, handleSearch, getAlbums, getSingleAlbum, getSingleAlbumDetails, details }}>
