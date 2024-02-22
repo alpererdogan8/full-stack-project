@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { FC, ReactNode, Reducer, createContext, useEffect, useReducer, useState } from "react";
+import { useNavigate } from "react-router";
 import { API } from "../utils/axios/config";
 import { reducer } from "../utils/reducers/reducer";
 import type { ApiResponse, Details, InitialState, TypeAction } from "../utils/reducers/types";
@@ -10,6 +11,7 @@ interface IContextAPI {
   getSingleAlbum: (albumId: number, page?: number) => Promise<void> | undefined;
   getSingleAlbumDetails: (albumId: number, photoId: number) => Promise<void> | undefined;
   details: Details;
+  handleSearch: (input: string) => void;
 }
 
 const ApiResponse: ApiResponse = {
@@ -33,6 +35,7 @@ export const ContextAPI = createContext<IContextAPI>({
     title: "",
     url: "",
   },
+  handleSearch: () => undefined,
 });
 const initialState: InitialState = {
   data: ApiResponse,
@@ -50,13 +53,15 @@ export const ContextAPIProvider: FC<{ children: ReactNode }> = ({ children }) =>
     title: "",
     url: "",
   });
-
+  const navigate = useNavigate();
   const getAlbums = async (page?: number) => {
     try {
       dispatch({ type: "FETCH_START" });
       const { data } = await API.get(`/albums?page=${page}`);
-
       dispatch({ type: "FETCH_SUCCESS", payload: data });
+      navigate({
+        pathname: typeof data.results[0].albumId! === "undefined" ? "/" : `/albums/${data.results[0].albumId!}`,
+      });
     } catch (error) {
       dispatch({ type: "FETCH_ERROR", payload: error as string });
     }
@@ -80,11 +85,24 @@ export const ContextAPIProvider: FC<{ children: ReactNode }> = ({ children }) =>
       console.log(error);
     }
   };
+  const handleSearch = async (input: string) => {
+    try {
+      dispatch({ type: "FETCH_START" });
+      const { data } = await API.get(`/search?type=albums-photos&search=${input}`);
+      console.log(data);
+      console.log(data.results[0].id);
+      history.pushState(data, "albums", `/albums/${data.results[0].id}`);
+      dispatch({ type: "FETCH_SUCCESS", payload: data });
+    } catch (error) {
+      dispatch({ type: "FETCH_ERROR", payload: error as string });
+    }
+  };
   useEffect(() => {
     console.log(details);
   }, [contextAPIState]);
   return (
-    <ContextAPI.Provider value={{ contextAPIState, getAlbums, getSingleAlbum, getSingleAlbumDetails, details }}>
+    <ContextAPI.Provider
+      value={{ contextAPIState, handleSearch, getAlbums, getSingleAlbum, getSingleAlbumDetails, details }}>
       {children}
     </ContextAPI.Provider>
   );
