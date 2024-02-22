@@ -12,9 +12,14 @@ app.set("trust proxy", 1);
 
 console.log(process.env.NODE_ENV);
 console.log(apiUrl);
+
+/**
+ * Actually I could not include it in cors in Render.com (hosting)
+ * Although I added it to Environment
+ */
 app.use(
   cors({
-    origin: [apiUrl],
+    origin: ["https://full-stack-project-sigma.vercel.app"],
   }),
 );
 const limiter = rateLimit({
