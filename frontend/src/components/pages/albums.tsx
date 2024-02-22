@@ -26,6 +26,11 @@ const Albums = () => {
 
   return (
     <div className="w-11/12 my-10 h-auto gap-2 flex flex-col md:flex-row md:flex-wrap md:justify-center md:items-start items-center ">
+      <header aria-label="A Header" className="w-full flex justify-center items-center h-auto">
+        <h1 aria-label="Album List" className="text-3xl font-semibold">
+          Album List
+        </h1>
+      </header>
       {contextAPIState && contextAPIState.loading ? (
         <>
           <SkeletonCard />
