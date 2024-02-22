@@ -1,35 +1,29 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Route, Routes } from "react-router";
+import Album from "./components/pages/album";
+import Albums from "./components/pages/albums";
+import Details from "./components/pages/details";
+import MainTemplate from "./components/templates/main-template";
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const NotFound = () => (
+    <div className="h-[80dvh] flex items-center justify-center">
+      <h1 className=" text-9xl font-black from-purple-600 via-pink-600 to-blue-600 bg-gradient-to-r bg-clip-text text-transparent ">
+        Not Found Page
+      </h1>
+    </div>
+  );
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <MainTemplate>
+      <div className="flex flex-col items-center flex-wrap h-auto">
+        <Routes>
+          <Route path="/" index element={<Albums />} />
+          <Route path="/albums/:albumId" element={<Album />} />
+          <Route path="/albums/:albumId/details/:detailId" element={<Details />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </MainTemplate>
+  );
 }
 
-export default App
+export default App;
