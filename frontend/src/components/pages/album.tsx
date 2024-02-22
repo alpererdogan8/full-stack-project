@@ -16,7 +16,6 @@ const Album = () => {
       (async () => {
         return await getSingleAlbum(Number(albumId), Number(page));
       })();
-      console.log(contextAPIState);
     } catch (error) {
       console.log(error);
     }
