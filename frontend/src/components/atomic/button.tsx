@@ -20,8 +20,9 @@ const variantButton = cva("inline-flex items-center justify-center button rounde
 interface ButtonProps extends HTMLAttributes<HTMLElement>, VariantProps<typeof variantButton> {
   children: ReactNode;
   href?: string;
+  disabled?: boolean;
 }
-export const Button: FC<ButtonProps> = ({ className, href, size, variantType, children, ...props }) => {
+export const Button: FC<ButtonProps> = ({ className, disabled, href, size, variantType, children, ...props }) => {
   if (variantType === "link") {
     return (
       <a href={href} className={cn(variantButton({ className, size, variantType }))} {...props}>
@@ -31,7 +32,7 @@ export const Button: FC<ButtonProps> = ({ className, href, size, variantType, ch
   }
 
   return (
-    <button className={cn(variantButton({ className, size, variantType }))} {...props}>
+    <button disabled={disabled} className={cn(variantButton({ className, size, variantType }))} {...props}>
       {children}
     </button>
   );
