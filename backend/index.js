@@ -8,7 +8,7 @@ const PORT = process.env.PORT;
 
 const app = express();
 const apiUrl = process.env.NODE_ENV === "production" ? process.env.CORS_URL_PROD : process.env.CORS_URL_DEV;
-app.set("trust proxy", true);
+app.set("trust proxy", 1);
 app.use(cors({ origin: apiUrl, credentials: true }));
 const limiter = rateLimit({
   message: "too many requests, please wait a bit",
