@@ -25,14 +25,24 @@ interface ButtonProps extends HTMLAttributes<HTMLElement>, VariantProps<typeof v
 export const Button: FC<ButtonProps> = ({ className, disabled, href, size, variantType, children, ...props }) => {
   if (variantType === "link") {
     return (
-      <a href={href} className={cn(variantButton({ className, size, variantType }))} {...props}>
+      <a
+        href={href}
+        aria-label="search"
+        aria-description="is a button with search and linking feature"
+        className={cn(variantButton({ className, size, variantType }))}
+        {...props}>
         {children}
       </a>
     );
   }
 
   return (
-    <button disabled={disabled} className={cn(variantButton({ className, size, variantType }))} {...props}>
+    <button
+      disabled={disabled}
+      aria-label="button"
+      aria-description="this is a button with search, linking, and select features"
+      className={cn(variantButton({ className, size, variantType }))}
+      {...props}>
       {children}
     </button>
   );
