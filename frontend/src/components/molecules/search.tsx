@@ -11,7 +11,7 @@ const Search = () => {
     <div className="flex items-center gap-2">
       <Input placeholder="Search album name for photos" onChange={(e) => setInput(e.target.value)} />
       <Button
-        disabled={typeof input === "undefined" && input === "" ? true : false}
+        disabled={typeof input === "undefined" || input === ""}
         onClick={() => handleSearch(input as string)}>
         <SearchIcon />
       </Button>
