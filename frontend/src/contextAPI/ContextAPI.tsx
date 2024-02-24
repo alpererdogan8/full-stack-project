@@ -84,9 +84,8 @@ export const ContextAPIProvider: FC<{ children: ReactNode }> = ({ children }) =>
   const handleSearch = async (input: string) => {
     try {
       dispatch({ type: "FETCH_START" });
-      const { data } = await API.get(`/search?type=albums-photos&search=${input}`);
-      console.log(data);
-      console.log(data.results[0].id);
+      const { data } = await API.get(`/search?type=albums-photos&search=${input}`)
+      
       if (data.results.length > 0) {
         navigate({ pathname: `/albums/${data.results[0].albumId}` });
       }
