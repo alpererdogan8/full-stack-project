@@ -1,8 +1,6 @@
-
 import { Logo } from "../../assets/logo";
 import Search from "../molecules/search";
 const Navbar = () => {
-  const route = "album-name";
   return (
     <nav className="w-full shadow-md py-4 px-1  md:px-8 md:py-3.5 flex items-center justify-between md:min-h-[5.5rem] ">
       <div className="flex justify-between px-1 md:gap-8 items-center   w-full">
@@ -11,7 +9,7 @@ const Navbar = () => {
 
           <div className=" text-xl md:text-2xl font-semibold"> Albums</div>
         </div>
-        {route === "album-name" ? <Search /> : null}
+        <Search />
       </div>
     </nav>
   );
