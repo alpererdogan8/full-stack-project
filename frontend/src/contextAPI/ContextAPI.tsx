@@ -1,23 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { FC, ReactNode, Reducer, createContext, useReducer, useState } from "react";
+import { FC, ReactNode, Reducer, createContext, useReducer } from "react";
 import { useNavigate } from "react-router";
 import { API } from "../utils/axios/config";
 import { reducer } from "../utils/reducers/reducer";
-import type { ApiResponse, Details, InitialState, TypeAction } from "../utils/reducers/types";
+import type { ApiResponse, InitialState, TypeAction } from "../utils/reducers/types";
 
 interface IContextAPI {
   contextAPIState: InitialState;
   getAlbums: (page?: number) => Promise<void> | undefined;
   getSingleAlbum: (albumId: number, page?: number) => Promise<void> | undefined;
   getSingleAlbumDetails: (albumId: number, photoId: number) => Promise<void> | undefined;
-  details: Details;
   handleSearch: (input: string) => void;
 }
 
 const ApiResponse: ApiResponse = {
   limit: 25,
   page: 1,
-  results: [],
+  results: {},
   totalItems: 0,
   totalPages: 0,
 };
@@ -27,14 +26,6 @@ export const ContextAPI = createContext<IContextAPI>({
   getAlbums: () => Promise.resolve() || undefined,
   getSingleAlbum: () => Promise.resolve() || undefined,
   getSingleAlbumDetails: () => Promise.resolve() || undefined,
-  details: {
-    albumId: 0,
-    comments: [],
-    id: 0,
-    thumbnailUrl: "",
-    title: "",
-    url: "",
-  },
   handleSearch: () => undefined,
 });
 const initialState: InitialState = {
@@ -45,19 +36,12 @@ const initialState: InitialState = {
 
 export const ContextAPIProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [contextAPIState, dispatch] = useReducer<Reducer<InitialState, TypeAction>>(reducer, initialState);
-  const [details, setDetails] = useState<Details>({
-    albumId: 0,
-    comments: [],
-    id: 0,
-    thumbnailUrl: "",
-    title: "",
-    url: "",
-  });
 
   const getAlbums = async (page?: number) => {
     try {
       dispatch({ type: "FETCH_START" });
       const { data } = await API.get(`/albums?page=${page}`);
+      if (data.results.length === 0) throw new Error("Not Found").message;
       dispatch({ type: "FETCH_SUCCESS", payload: data });
     } catch (error) {
       dispatch({ type: "FETCH_ERROR", payload: error as string });
@@ -67,15 +51,19 @@ export const ContextAPIProvider: FC<{ children: ReactNode }> = ({ children }) =>
     try {
       dispatch({ type: "FETCH_START" });
       const { data } = await API.get(`/albums/${albumId}?page=${page}`);
+      if (data.results.length === 0) throw new Error("Not Found").message;
+
       dispatch({ type: "FETCH_SUCCESS", payload: data });
     } catch (error) {
       dispatch({ type: "FETCH_ERROR", payload: error as string });
     }
   };
+
   const getSingleAlbumDetails = async (albumId: number, photoId: number) => {
     try {
+      dispatch({ type: "FETCH_START" });
       const { data } = await API.get(`/albums/${albumId}/photos/${photoId}`);
-      setDetails({ ...data });
+      dispatch({ type: "FETCH_SUCCESS", payload: { results: data } });
     } catch (error) {
       console.log(error);
     }
@@ -84,8 +72,8 @@ export const ContextAPIProvider: FC<{ children: ReactNode }> = ({ children }) =>
   const handleSearch = async (input: string) => {
     try {
       dispatch({ type: "FETCH_START" });
-      const { data } = await API.get(`/search?type=albums-photos&search=${input}`)
-      
+      const { data } = await API.get(`/search?type=albums-photos&search=${input}`);
+
       if (data.results.length > 0) {
         navigate({ pathname: `/albums/${data.results[0].albumId}` });
       }
@@ -95,8 +83,7 @@ export const ContextAPIProvider: FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
   return (
-    <ContextAPI.Provider
-      value={{ contextAPIState, handleSearch, getAlbums, getSingleAlbum, getSingleAlbumDetails, details }}>
+    <ContextAPI.Provider value={{ contextAPIState, handleSearch, getAlbums, getSingleAlbum, getSingleAlbumDetails }}>
       {children}
     </ContextAPI.Provider>
   );
