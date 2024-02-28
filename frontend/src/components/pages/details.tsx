@@ -18,12 +18,11 @@ const Details = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  console.log(contextAPIState);
 
   return (
     <>
-      {contextAPIState && contextAPIState.error ? (
-        <Navigate to={"/error"} />
-      ) : contextAPIState.loading ? (
+      {contextAPIState && contextAPIState.loading ? (
         <>
           <div className="w-full h-[100dvh] flex flex-wrap justify-center items-center">
             <SkeletonCard />
@@ -37,13 +36,15 @@ const Details = () => {
           <div className="flex w-11/12 md:w-8/12 flex-col ">
             <h2 className="text-2xl w-full text-center md:text-start font-semibold mb-8">Comments</h2>
             <div className="flex w-full  gap-5 flex-col items-center">
-              {contextAPIState.data.results.comments
-                ? (contextAPIState.data.results.comments as []).map(
-                    (comment: { id: number; name: string; body: string }) => {
-                      return <Comments key={comment.id} author={comment.name} comment={comment.body} />;
-                    },
-                  )
-                : null}
+              {contextAPIState.data.results.comments ? (
+                (contextAPIState.data.results.comments as []).map(
+                  (comment: { id: number; name: string; body: string }) => {
+                    return <Comments key={comment.id} author={comment.name} comment={comment.body} />;
+                  },
+                )
+              ) : (
+                <Navigate to={"/error"} />
+              )}
             </div>
           </div>
         </div>
