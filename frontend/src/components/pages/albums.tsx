@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect } from "react";
-import { useLocation } from "react-router";
+import { Navigate, useLocation } from "react-router";
 import { useAPI } from "../../hooks/useAPI";
 import { Button } from "../atomic/button";
 import Card from "../molecules/card";
@@ -31,7 +31,9 @@ const Albums = () => {
           Album List
         </h1>
       </header>
-      {contextAPIState && contextAPIState.loading ? (
+      {contextAPIState && contextAPIState.error ? (
+        <Navigate to={"/error"} />
+      ) : contextAPIState.loading ? (
         <>
           <SkeletonCard />
         </>
