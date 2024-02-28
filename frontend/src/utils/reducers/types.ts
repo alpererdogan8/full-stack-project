@@ -4,7 +4,7 @@ export type ApiResponse = {
   limit: number;
   totalPages: number;
   totalItems: number;
-  results: unknown;
+  results: { [key: string]: unknown };
 };
 export interface InitialState {
   data: ApiResponse;
