@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
-import { useLocation, useParams } from "react-router";
+import { Navigate, useLocation, useParams } from "react-router";
 import { useAPI } from "../../hooks/useAPI";
 import { Button } from "../atomic/button";
 import Card from "../molecules/card";
@@ -12,15 +12,13 @@ const Album = () => {
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
   const page = queryParams.get("page");
+
   const { contextAPIState, getSingleAlbum } = useAPI();
   useEffect(() => {
-    try {
-      (async () => {
-        return await getSingleAlbum(Number(albumId), Number(page));
-      })();
-    } catch (error) {
-      console.log(error);
-    }
+    (async () => {
+      return await getSingleAlbum(Number(albumId), Number(page));
+    })();
+    console.log(contextAPIState);
   }, []);
 
   return (
@@ -30,7 +28,9 @@ const Album = () => {
           Photos
         </h1>
       </header>
-      {contextAPIState && contextAPIState.loading ? (
+      {contextAPIState && contextAPIState.error ? (
+        <Navigate to={"/error"} />
+      ) : contextAPIState.loading ? (
         <>
           <SkeletonCard />
         </>
