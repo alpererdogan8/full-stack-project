@@ -11,7 +11,6 @@ const apiUrl = process.env.NODE_ENV === "production" ? process.env.CORS_URL_PROD
 app.set("trust proxy", 1);
 
 console.log(process.env.NODE_ENV);
-console.log(apiUrl);
 
 app.use(
   cors({
@@ -35,5 +34,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Starting ${apiUrl}`);
+  console.log(`Starting ${PORT}`);
 });
